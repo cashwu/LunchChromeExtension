@@ -1,0 +1,28 @@
+{
+    "manifest_version": 2,
+
+    "name": "lunchx",
+    "description": "For Lunch Extension",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+
+    "permissions": [
+        "activeTab"
+    ],
+
+    "content_scripts": [{
+        "matches": ["http://lunch-twsp.coreop.net/*"],
+        "js": ["jquery-3.2.1.min.js", "lunch.js"],
+        "css": ["lunch.css"]
+    }],
+
+    "icons": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    }
+}
