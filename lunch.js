@@ -10,11 +10,13 @@ var modal =
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <p>Modal body text goes here.</p>
+                <div class="modal-body" id="body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="form-group mx-sm-3">
+                        <input class="form-control" id="cmt"></textarea>
+                    </div>
+                    <button id="AddCmt" type="button" class="btn btn-secondary">Save</button>
                 </div>
             </div>
         </div>
@@ -23,28 +25,41 @@ var modal =
 
 $(modal).insertAfter("#submitForm");
 
-// var $searchDBFilter = $('#searchDB');
-// var $searchTableFilter = $('#searchTable');
+$("#AddCmt").click(function() {
+    var cmt = $("#cmt").val();
+    var p = '<p>' + $("#cmt").val() + '</p>';
+    $(p).appendTo("#body");
 
-// function Filter(i, e, obj) {
-//     return $(e).val().toLowerCase().indexOf(obj.val().toLowerCase()) > -1;
-// }
+    $("#cmt").val("");
+    PostData(cmt);
+});
 
-// function FilterDB(i, e) {
-//     return Filter(i, e, $searchDBFilter);
-// }
-
-// function FilterTable(i, e) {
-//     return Filter(i, e, $searchTableFilter);
-// }
-
-// $searchDBFilter.keyup(function() {
-//     $('#Database option').hide().filter(FilterDB).show();
-// });
-
-// $searchTableFilter.keyup(function() {
-//     $('#Table option').hide().filter(FilterTable).show();
-// });
-
+GetData();
 
 console.log("load done..");
+
+function GetData() {
+    $.ajax({
+        type: "Get",
+        url: "http://ti03pc03:8899/?name=" + $("h2").text(),
+        dataType: "json",
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+function PostData(cmt) {
+    $.ajax({
+        type: "Post",
+        url: "http://ti03pc03:8899/Comments/Create",
+        data: {
+            name: $("h2").text(),
+            comment1: cmt
+        },
+        dataType: "json",
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}
