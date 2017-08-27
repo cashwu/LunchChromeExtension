@@ -21,7 +21,7 @@ var modal =
     </div>
     `;
 
-if (location.pathname.indexOf("ClientOrder") > 0) {
+if (location.pathname.indexOf("ClientOrder") > 0 && $("h2").text() !== "stop") {
 
     $(btn).insertAfter("h2");
 
@@ -36,7 +36,7 @@ if (location.pathname.indexOf("ClientOrder") > 0) {
             return;
         }
 
-        var p = '<p>' + cmt + '</p>';
+        var p = `<p>${$("#name").val()} : ${cmt}</p>`;
         $(p).appendTo("#body");
 
         EmptyCmt();
@@ -69,7 +69,7 @@ function GetDataSuccess(response) {
     $("#body").empty();
 
     $.each(response, function(index, value) {
-        var p = '<p>' + value.Comment1 + '</p>';
+        var p = `<p>${value.User} : ${value.Comment1}</p>`;
         $(p).appendTo("#body");
     });
 }
@@ -80,7 +80,8 @@ function PostData(cmt) {
         url: "http://ti03pc03:8899/Comments/Create",
         data: {
             name: $("h2").text(),
-            comment1: cmt
+            comment1: cmt,
+            user : $("#name").val()
         },
         dataType: "json",
         success: function(response) {
